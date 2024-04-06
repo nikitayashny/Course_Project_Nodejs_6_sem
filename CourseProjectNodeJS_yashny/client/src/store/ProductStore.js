@@ -41,7 +41,6 @@ export default class ProductStore {
     }
 
 
-
     get types() {
         return this._types
     }

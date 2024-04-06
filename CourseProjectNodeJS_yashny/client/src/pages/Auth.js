@@ -30,6 +30,7 @@ const Auth = observer(() => {
             }
             user.setUser(user)
             user.setIsAuth(true)
+            user.setUserId(data.id)
             if (data.role === 'ADMIN') 
                 user.setIsAdmin(true)
             navigate(SHOP_ROUTE)
