@@ -27,7 +27,7 @@ const ProductPage = observer(() => {
             getBasket(user.userId).then(data => 
                 setProducts(data))
         }
-      }, [products])
+      }, [])
 
     const makeRate = async (rate) => {
         try {
@@ -58,7 +58,8 @@ const ProductPage = observer(() => {
                 userId: user.userId,
                 productId: product.id
             }
-            addToBasket(params)     
+            await addToBasket(params)     
+            await getBasket(user.userId).then(data => setProducts(data))
             alert("Товар добавлен в корзину")
         } catch(e) {
             alert(e)
@@ -71,7 +72,8 @@ const ProductPage = observer(() => {
                 alert("Вы не авторизованы")
                 return
             }
-            deleteFromBasket(user.userId, product.id)     
+            await deleteFromBasket(user.userId, product.id)    
+            await getBasket(user.userId).then(data => setProducts(data)) 
             alert("Товар удалён из корзины")
         } catch(e) {
             alert(e)
@@ -124,11 +126,24 @@ const ProductPage = observer(() => {
                 style={{width: 300, height: 300, fontSize: 32, border: '5px solid lightgray'}}
             >
                 <h3>Цена: {product.price}$</h3>
+
+                {product.isSold 
+                ? 
+                <div>Товар продан</div> 
+                :
+                <>
                 {products.some(element => element.id === product.id) ? 
-                <Button variant="outline-dark" onClick={() => delFromBasket()}>Удалить из корзины</Button> 
-                : 
-                <Button variant="outline-dark" onClick={() => addToBask()}>Добавить в корзину</Button>
-                }         
+                    <Button variant="outline-dark" onClick={() => delFromBasket()}>Удалить из корзины</Button> 
+                    : 
+                    <Button variant="outline-dark" onClick={() => addToBask()}>Добавить в корзину</Button>
+                }   
+                </>
+                }
+
+
+                      
+
+
             </Card>
         </Col>
         </Row>   

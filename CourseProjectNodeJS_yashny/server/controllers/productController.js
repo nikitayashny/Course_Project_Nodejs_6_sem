@@ -41,23 +41,43 @@ class ProductController {
     }
 
     async getAll(req, res) {
-        let {brandId, typeId, limit, page} = req.query
+        let {brandId, typeId, isSold, limit, page} = req.query
+        let products;
         page = page || 1
         limit = limit || 9
         let offset = page * limit - limit
-        let products;
-        if (!brandId && !typeId) {
-            products = await Product.findAndCountAll({limit, offset});
+        
+        
+        if (!isSold) {
+            if (!brandId && !typeId) {
+                products = await Product.findAndCountAll({limit, offset});
+            }
+            if (brandId && !typeId) {
+                products = await Product.findAndCountAll({ where: { brandId }, limit, offset });
+            }
+            if (!brandId && typeId) {
+                products = await Product.findAndCountAll({where:{typeId}, limit, offset})
+            }
+            if (brandId && typeId) {
+                products = await Product.findAndCountAll({where:{typeId, brandId}, limit, offset}) 
+            }
+           
         }
-        if (brandId && !typeId) {
-            products = await Product.findAndCountAll({ where: { brandId }, limit, offset });
+        else {
+            if (!brandId && !typeId) {
+                products = await Product.findAndCountAll({where: {isSold}, limit, offset});
+            }
+            if (brandId && !typeId) {
+                products = await Product.findAndCountAll({ where: { brandId, isSold }, limit, offset });
+            }
+            if (!brandId && typeId) {
+                products = await Product.findAndCountAll({where:{typeId, isSold}, limit, offset})
+            }
+            if (brandId && typeId) {
+                products = await Product.findAndCountAll({where:{typeId, brandId, isSold}, limit, offset}) 
+            }
         }
-        if (!brandId && typeId) {
-            products = await Product.findAndCountAll({where:{typeId}, limit, offset})
-        }
-        if (brandId && typeId) {
-            products = await Product.findAndCountAll({where:{typeId, brandId}, limit, offset}) 
-        }
+        
         return res.json(products)
     }
 
@@ -69,6 +89,9 @@ class ProductController {
                 include: [{model: ProductInfo, as: 'info'}]
             }
         )
+        if (!product){
+            return res.status(404).json({ message: 'Товар не найден' });
+        }
         return res.json(product)
     }
 

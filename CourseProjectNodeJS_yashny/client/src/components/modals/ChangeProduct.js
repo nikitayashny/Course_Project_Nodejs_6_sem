@@ -18,7 +18,7 @@ const ChangeProduct = observer(({show, onHide}) => {
     }, [])
 
     useEffect(() => {
-        fetchProducts(null, null, product.page, product.limit).then(data => {
+        fetchProducts(null, null, false, product.page, product.limit).then(data => {
             product.setProducts(data.rows)
             product.setTotalCount(data.count)
         })

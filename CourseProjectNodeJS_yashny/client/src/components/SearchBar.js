@@ -9,12 +9,18 @@ const SearchBar = observer(() => {
     const [searchQuery, setSearchQuery] = useState("");
 
     const handleSearch = () => {
-        fetchProducts(product.selectedType.id, product.selectedBrand.id, product.page, product.limit).then(data => {
-            product.setProducts(data.rows)
-            product.setTotalCount(data.count)
-            product.setProducts(product.products.filter(product =>
-                product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        if (searchQuery === "") {
+            fetchProducts(product.selectedType.id, product.selectedBrand.id, false, product.page, product.limit).then(data => {
+                product.setProducts(data.rows)
+                product.setTotalCount(data.count)
+              })    
+              return; 
+        }
+        fetchProducts(product.selectedType.id, product.selectedBrand.id, false, product.page, 10000 ).then(data => {
+            product.setProducts(data.rows.filter(row =>
+                row.name.toLowerCase().includes(searchQuery.toLowerCase())
             ));
+             product.setTotalCount(product.length)
           })     
     };
 

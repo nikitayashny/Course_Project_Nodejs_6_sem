@@ -7,6 +7,7 @@ const typeRouter = require('./typeRouter')
 const adminRouter = require('./adminRouter')
 const rateRouter = require('./rateRouter')
 const basketRouter = require('./basketRouter')
+const orderRouter = require('./orderRouter')
 
 router.use('/user', userRouter)
 router.use('/type', typeRouter)
@@ -15,5 +16,6 @@ router.use('/product', productRouter)
 router.use('/admin', adminRouter)
 router.use('/rate', rateRouter)
 router.use('/basket', basketRouter)
+router.use('/order', orderRouter)
 
 module.exports = router

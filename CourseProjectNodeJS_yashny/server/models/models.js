@@ -21,7 +21,8 @@ const Product = sequelize.define('product', {
     name: {type: DataTypes.STRING, unique: true, allowNull: false},
     price: {type: DataTypes.INTEGER, allowNull: false},
     rating: {type: DataTypes.INTEGER, defaultValue: 0},
-    img: {type: DataTypes.STRING, allowNull: false}
+    img: {type: DataTypes.STRING, allowNull: false},
+    isSold: {type: DataTypes.BOOLEAN, defaultValue: false}
 })
 
 
@@ -48,6 +49,20 @@ const ProductInfo = sequelize.define('product_info', {
 
 const TypeBrand = sequelize.define('type_brand', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
+})
+
+const Order = sequelize.define('order', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    total_cost: {type: DataTypes.INTEGER, defaultValue: 0}
+})
+
+const OrderProduct = sequelize.define('order_product', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
+})
+
+const OrderStatus = sequelize.define('order_status', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: {type: DataTypes.STRING, unique: true, allowNull: false}
 })
 
 User.hasOne(Basket)
@@ -77,6 +92,22 @@ ProductInfo.belongsTo(Product)
 Type.belongsToMany(Brand, {through: TypeBrand})
 Brand.belongsToMany(Type, {through: TypeBrand})
 
+User.hasMany(Order)
+Order.belongsTo(User)
+
+Order.hasMany(OrderProduct)
+OrderProduct.belongsTo(Order)
+
+Product.hasMany(OrderProduct)
+OrderProduct.belongsTo(Product)
+
+OrderStatus.hasMany(Order)
+Order.belongsTo(OrderStatus)
+
+Order.belongsToMany(Product, { through: OrderProduct });
+Product.belongsToMany(Order, { through: OrderProduct });
+
+
 module.exports = {
     User,
     Basket,
@@ -86,5 +117,8 @@ module.exports = {
     Brand,
     Rating,
     TypeBrand,
-    ProductInfo
+    ProductInfo, 
+    Order,
+    OrderProduct,
+    OrderStatus
 }

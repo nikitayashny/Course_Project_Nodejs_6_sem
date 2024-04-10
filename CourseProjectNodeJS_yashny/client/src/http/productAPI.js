@@ -25,9 +25,9 @@ export const createProduct = async (product) => {
     return data
 }
 
-export const fetchProducts = async (typeId, brandId, page, limit = 5) => {
+export const fetchProducts = async (typeId, brandId, isSold, page, limit = 5) => {
     const {data} = await $host.get('api/product', {params: {
-        typeId, brandId, page, limit
+        typeId, brandId, isSold, page, limit
     }})
     return data
 }
@@ -64,5 +64,35 @@ export const addToBasket = async (params) => {
 
 export const deleteFromBasket = async (userId, productId) => {
     const {data} = await $authHost.delete(`api/basket/${userId}/${productId}`)
+    return data
+}
+
+export const getUserOrders = async (userId) => {
+    const {data} = await $authHost.get(`api/order/${userId}`)
+    return data
+}
+
+export const getOneUserOrder = async (userId, orderId) => {
+    const {data} = await $authHost.get(`api/order/${userId}/${orderId}`)
+    return data
+}
+
+export const deleteOrder = async (orderId) => {
+    const {data} = await $authHost.delete(`api/order/${orderId}`)
+    return data
+}
+
+export const makeOrder = async (userId) => {
+    const {data} = await $authHost.post(`api/order/${userId}`)
+    return data
+}
+
+export const getAllOrders = async (params) => {
+    const {data} = await $authHost.get(`api/order`, params)
+    return data
+}
+
+export const changeStatus = async (params) => {
+    const {data} = await $authHost.put(`api/order/`, params)
     return data
 }
