@@ -65,6 +65,11 @@ const OrderStatus = sequelize.define('order_status', {
     name: {type: DataTypes.STRING, unique: true, allowNull: false}
 })
 
+const Review = sequelize.define('review', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    text: {type: DataTypes.STRING, allowNull: false}
+})
+
 User.hasOne(Basket)
 Basket.belongsTo(User)
 
@@ -107,6 +112,11 @@ Order.belongsTo(OrderStatus)
 Order.belongsToMany(Product, { through: OrderProduct });
 Product.belongsToMany(Order, { through: OrderProduct });
 
+User.hasMany(Review)
+Review.belongsTo(User)
+
+Product.hasMany(Review)
+Review.belongsTo(Product)
 
 module.exports = {
     User,
@@ -120,5 +130,6 @@ module.exports = {
     ProductInfo, 
     Order,
     OrderProduct,
-    OrderStatus
+    OrderStatus,
+    Review
 }
