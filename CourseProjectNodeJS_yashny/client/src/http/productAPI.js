@@ -96,3 +96,18 @@ export const changeStatus = async (params) => {
     const {data} = await $authHost.put(`api/order/`, params)
     return data
 }
+
+export const getReviews = async (productId) => {
+    const {data} = await $host.get(`api/review/${productId}`)
+    return data
+}
+
+export const createReview = async (params) => {
+    const {data} = await $authHost.post(`api/review`, params)
+    return data
+}
+
+export const deleteReview = async (id, userId) => {
+    const {data} = await $authHost.delete(`api/review/${id}/${userId}`)
+    return data
+}

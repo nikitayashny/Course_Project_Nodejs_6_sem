@@ -19,8 +19,10 @@ class ReviewController {
             const reviews = await Review.findAll({
                 where: {
                     productId
-                }
+                },
+                include: User
             })
+
             return res.json(reviews)
         } catch (e) {
             res.json(e)
@@ -29,8 +31,7 @@ class ReviewController {
 
     async deleteReview(req, res) {
         try {
-            const { id } = req.params
-            const { userId } = req.body
+            const { id, userId } = req.params
             
             const review = await Review.findOne({
                 where: {

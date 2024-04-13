@@ -5,6 +5,6 @@ const authMiddleware = require('../middleware/authMiddleware')
 
 router.get('/:productId', reviewController.getReviews)
 router.post('/', authMiddleware, reviewController.createReview)
-router.delete('/:id', authMiddleware, reviewController.deleteReview)
+router.delete('/:id/:userId', authMiddleware, reviewController.deleteReview)
 
 module.exports = router
