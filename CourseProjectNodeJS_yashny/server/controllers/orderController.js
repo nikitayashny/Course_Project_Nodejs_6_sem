@@ -1,6 +1,8 @@
 const {Basket, Product, BasketProduct, Order, OrderProduct, User, OrderStatus} = require('../models/models')
 const ApiError = require('../error/ApiError')
 const { Op } = require('sequelize');
+const nodemailer = require('nodemailer');
+
 
 class OrderController {
     async getAllOrders(req, res) {
@@ -290,7 +292,7 @@ class OrderController {
         where: {
           id: {
             [Op.in]: [orderId],
-          },
+          }
         },
       });
   
@@ -304,7 +306,41 @@ class OrderController {
           },
         }
       );
-  
+
+      const user = await User.findOne({
+        where: {
+          id: {
+            [Op.in]: [order.userId],
+          }
+        },
+      });
+
+      const statusMap = {
+        1: 'В обработке',
+        2: 'Подтверждено',
+        3: 'Выполнено'
+      };
+     
+      const status = statusMap[orderStatusId];
+
+      const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+          user: 'yashny.lsdclothing@gmail.com', 
+          pass: 'hekupnuelsnecjij' 
+        }
+      });
+    
+      const mailOptions = {
+        from: 'yashny.lsdclothing@gmail.com',
+        to: user.email,
+        subject: 'Изменение статуса заказа',
+        html: `Текущий статус заказа: ${status}`
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+      });
+
       return res.json(order);
     } catch (e) {
       return res.json(e);
