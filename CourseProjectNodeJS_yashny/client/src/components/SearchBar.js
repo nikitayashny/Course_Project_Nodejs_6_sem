@@ -31,7 +31,7 @@ const SearchBar = observer(() => {
     return (
         <Form>
             <Row className="mt-2">
-                <Col md={3}>
+                <Col md={3} xs={9}>
                     <Form.Control
                         type="text"
                         placeholder="Search"
@@ -39,7 +39,7 @@ const SearchBar = observer(() => {
                         onChange={handleChange}
                     />
                 </Col>
-                <Col>
+                <Col xs={3}>
                     <Button onClick={handleSearch}>Search</Button>
                 </Col>
             </Row>

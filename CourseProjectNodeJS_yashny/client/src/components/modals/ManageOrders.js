@@ -55,22 +55,16 @@ const ManageOrders = observer(({show, onHide}) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Container>
-            <div className="d-flex m-3">
-                    <div style={{width: 50}}>id:</div>
-                    <div style={{width: 200}}>Общая стоимость:</div>
-                    <div style={{width: 200}}>Статус:</div>
-                    <div style={{width: 200}}>Дата заказа:</div>
-                    <div style={{width: 300}}>email</div>
-            </div>
+        <Container className="col-12">
+            
             {orders.map(order => 
             <>
-              <div className="d-flex">
-              <Row className="mt-3">
+              <div className=" d-flex flex-wrap">
+              <Row className="mt-3 col-10">
             
                   <Card style={{width: 950}} border={"dark"}>
                       <div className="m-3">
-                          <div style={{width: 50, display: "inline-block"}}>{order.id}</div>
+                          <div style={{width: 50, display: "inline-block"}}>id: {order.id}</div>
                           <div style={{width: 200, display: "inline-block"}}>{order.total_cost}$</div>
                           <div style={{width: 200, display: "inline-block"}}>{order.status}</div>
                           <div style={{width: 200, display: "inline-block"}}>{order.date.substring(0, 10)}</div>

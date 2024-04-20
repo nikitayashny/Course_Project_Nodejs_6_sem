@@ -35,27 +35,28 @@ const NavBar = observer( () => {
     }
 
     return (
-        <Navbar bg="dark" data-bs-theme="dark">
-            <Container>
-                <NavLink style={{color: 'white'}} to={SHOP_ROUTE}>Perlee</NavLink>  
-                {user.isAuth ?
-                    <Nav className="ml-auto" style={{color: 'white'}}>
-                        {user.isAdmin ?
-                        <Button variant={"outline-light"} onClick={() => toAdmin()}>Админ панель</Button>
-                        : null
-                        }
-                        <Button variant={"outline-light"} onClick={() => navigate(ORDER_ROUTE)} style={{margin: '0 0 0 5px'}}>Заказы</Button>
-                        <Button variant={"outline-light"} onClick={() => toBasket()} style={{margin: '0 0 0 5px'}}>Корзина</Button>
-                        <Button variant={"outline-light"} onClick={() => logOut()} style={{margin: '0 0 0 5px'}}>Выйти</Button>
-                    </Nav>
-                    :
-                    <Nav className="ml-auto" style={{color: 'white'}}>
-                        <Button variant={"outline-light"} onClick={() => navigate(LOGIN_ROUTE)}>Авторизация</Button>
-                    </Nav>
-                }
-            </Container>
-            
-        </Navbar>
+        <Navbar bg="dark" data-bs-theme="dark" expand="md">
+    <Container>
+        <NavLink style={{color: 'white'}} to={SHOP_ROUTE}>Perlee</NavLink>  
+        <Navbar.Toggle aria-controls="navbar-nav" />
+        <Navbar.Collapse id="navbar-nav" className="justify-content-end">
+            {user.isAuth ?
+                <Nav style={{color: 'white'}}>
+                    {user.isAdmin &&
+                        <Button variant="outline-light" onClick={() => toAdmin()} className="mr-2">Админ панель</Button>
+                    }
+                    <Button variant="outline-light" onClick={() => navigate(ORDER_ROUTE)} className="mr-2">Заказы</Button>
+                    <Button variant="outline-light" onClick={() => toBasket()} className="mr-2">Корзина</Button>
+                    <Button variant="outline-light" onClick={() => logOut()} className="mr-2">Выйти</Button>
+                </Nav>
+                :
+                <Nav style={{color: 'white'}}>
+                    <Button variant="outline-light" onClick={() => navigate(LOGIN_ROUTE)}>Авторизация</Button>
+                </Nav>
+            }
+        </Navbar.Collapse>
+    </Container>
+</Navbar>
     )
 })
 

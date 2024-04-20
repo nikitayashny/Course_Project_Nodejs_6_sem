@@ -128,10 +128,10 @@ const ProductPage = observer(() => {
             setCreateReviewVisible(false)
         }}/>
         <Row>
-        <Col md={4}>
+        <Col xs={12}  md={4} className="d-flex justify-content-center">
             <Image width={300} height={300} src={process.env.REACT_APP_API_URL + product.img} />
         </Col>
-        <Col md={4}>
+        <Col xs={12}  md={4}>
             <div className="d-flex flex-column align-items-center">
                 <h2>{product.name}</h2>
                 <div
@@ -153,7 +153,7 @@ const ProductPage = observer(() => {
             </div>
             
         </Col>
-        <Col md={4}>
+        <Col xs={12} md={4} className="d-flex justify-content-center">
             <Card
                 className="d-flex flex-column align-items-center justify-content-around"
                 style={{width: 300, height: 300, fontSize: 32, border: '5px solid lightgray'}}
