@@ -35,7 +35,7 @@ const ManageOrders = observer(({show, onHide}) => {
       orderId: orderId,
       orderStatusId: statusId
     }
-    console.log(params)
+  
     await changeStatus(params)
     await getAllOrders().then(data => 
       setOrders(data))
@@ -58,21 +58,23 @@ const ManageOrders = observer(({show, onHide}) => {
         <Container>
             <div className="d-flex m-3">
                     <div style={{width: 50}}>id:</div>
-                    <div style={{width: 250}}>Общая стоимость:</div>
-                    <div style={{width: 250}}>Статус:</div>
-                    <div style={{width: 350}}>Дата заказа:</div>
+                    <div style={{width: 200}}>Общая стоимость:</div>
+                    <div style={{width: 200}}>Статус:</div>
+                    <div style={{width: 200}}>Дата заказа:</div>
+                    <div style={{width: 300}}>email</div>
             </div>
             {orders.map(order => 
             <>
               <div className="d-flex">
               <Row className="mt-3">
             
-                  <Card style={{width: 900}} border={"dark"}>
+                  <Card style={{width: 950}} border={"dark"}>
                       <div className="m-3">
                           <div style={{width: 50, display: "inline-block"}}>{order.id}</div>
-                          <div style={{width: 250, display: "inline-block"}}>{order.total_cost}$</div>
-                          <div style={{width: 250, display: "inline-block"}}>{order.status}</div>
-                          <div style={{width: 280, display: "inline-block"}}>{order.date.substring(0, 10)}</div>
+                          <div style={{width: 200, display: "inline-block"}}>{order.total_cost}$</div>
+                          <div style={{width: 200, display: "inline-block"}}>{order.status}</div>
+                          <div style={{width: 200, display: "inline-block"}}>{order.date.substring(0, 10)}</div>
+                          <div style={{width: 300, display: "inline"}}>{order.user.email}</div>
                       </div>
                   
                   </Card>
@@ -87,7 +89,7 @@ const ManageOrders = observer(({show, onHide}) => {
                     <Dropdown.Toggle>{order.status}</Dropdown.Toggle>
                         <Dropdown.Menu> 
                             {["В обработке", "Подтверждено", "Выполнено"].map(status => ( 
-                            <Dropdown.Item onClick={() => setStatus(order.id, status)} 
+                            <Dropdown.Item onClick={() => {setStatus(order.id, status)}} 
                                 key={status} > 
                                 {status} 
                             </Dropdown.Item> ))} 

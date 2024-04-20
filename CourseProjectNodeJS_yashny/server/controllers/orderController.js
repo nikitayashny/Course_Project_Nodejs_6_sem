@@ -2,7 +2,8 @@ const {Basket, Product, BasketProduct, Order, OrderProduct, User, OrderStatus} =
 const ApiError = require('../error/ApiError')
 const { Op } = require('sequelize');
 const nodemailer = require('nodemailer');
-
+const { emit } = require('nodemon');
+require('dotenv').config();
 
 class OrderController {
     async getAllOrders(req, res) {
@@ -22,6 +23,7 @@ class OrderController {
                     model: OrderStatus,
                   },
                 ],
+                
               });
           
               const orderList = [];
@@ -36,6 +38,8 @@ class OrderController {
                   isSold: product.isSold,
                   brandId: product.brandId
                 }));
+
+          
           
                 const orderData = {
                   id: order.id,
@@ -44,6 +48,7 @@ class OrderController {
                   date: order.createdAt,
                   status: order.order_status.name,
                   products: products,
+                  user: order.user
                 };
           
                 orderList.push(orderData);
@@ -217,8 +222,8 @@ class OrderController {
 
       await BasketProduct.destroy({
         where: {
-          basketId: {
-            [Op.eq]: basket.id,
+          productId: {
+            [Op.eq]: productIds,
           },
         },
       });
@@ -290,12 +295,17 @@ class OrderController {
 
       const order = await Order.findOne({
         where: {
-          id: {
-            [Op.in]: [orderId],
-          }
+          id: orderId
         },
+        include: Product
       });
-  
+
+      let orderProducts = '';
+      order.products.forEach(product => {
+          orderProducts += product.name + ', '
+      });
+      const orderProductsnew = orderProducts.slice(0, -2);
+
       await Order.update(
         { orderStatusId: orderStatusId },
         {
@@ -315,6 +325,7 @@ class OrderController {
         },
       });
 
+      
       const statusMap = {
         1: 'В обработке',
         2: 'Подтверждено',
@@ -326,17 +337,28 @@ class OrderController {
       const transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
-          user: 'yashny.lsdclothing@gmail.com', 
-          pass: 'hekupnuelsnecjij' 
+          user: process.env.USER_EMAIL, 
+          pass: process.env.PASS_EMAIL 
         }
       });
-    
-      const mailOptions = {
-        from: 'yashny.lsdclothing@gmail.com',
-        to: user.email,
-        subject: 'Изменение статуса заказа',
-        html: `Текущий статус заказа: ${status}`
-      };
+      
+      let mailOptions;
+      if (status == 'Выполнено') {
+          mailOptions = {
+          from: process.env.USER_EMAIL,
+          to: user.email,
+          subject: 'Изменение статуса заказа',
+          html: 'Ваш заказ: ' + orderProductsnew + '\nТекущий статус заказа: ' + status + '.\nЗабрать заказ вы можете по адресу ... с 9:00 до 21:00'
+        };
+      }
+      else {
+          mailOptions = {
+          from: process.env.USER_EMAIL,
+          to: user.email,
+          subject: 'Изменение статуса заказа',
+          html: 'Ваш заказ: ' + orderProductsnew + '\nТекущий статус заказа: ' + status
+        };
+      }
 
       transporter.sendMail(mailOptions, (error, info) => {
       });
