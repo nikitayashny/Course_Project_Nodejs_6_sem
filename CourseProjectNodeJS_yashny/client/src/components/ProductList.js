@@ -13,7 +13,7 @@ const ProductList = observer(() => {
     }
 
     return (
-            <Row className="d-flex justify-content-center container vh-90">
+            <Row className="d-flex container vh-90">
     {product.products.map(product =>
         <Col key={product.id} xs={12} sm={6} md={4} lg={3} >
             <ProductItem product={product} brand={getBrandNameByProductId(product.brandId)} />

@@ -5,7 +5,8 @@ import ProductPage from "./pages/ProductPage"
 import Shop from "./pages/Shop"
 import Orders from "./pages/Orders"
 import OrderPage from "./pages/OrderPage"
-import { ADMIN_ROUTE, BASKET_ROUTE, LOGIN_ROUTE, ORDER_ROUTE, PRODUCT_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE } from "./utils/consts"
+import Aboutus from "./pages/Aboutus"
+import { ABOUTUS_ROUTE, ADMIN_ROUTE, BASKET_ROUTE, LOGIN_ROUTE, ORDER_ROUTE, PRODUCT_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE } from "./utils/consts"
 
 export const authRoutes = [
     {
@@ -45,5 +46,9 @@ export const publicRoutes = [
     {
         path: PRODUCT_ROUTE + '/:id',
         Component: ProductPage
+    },
+    {
+        path: ABOUTUS_ROUTE,
+        Component: Aboutus
     }
 ]
