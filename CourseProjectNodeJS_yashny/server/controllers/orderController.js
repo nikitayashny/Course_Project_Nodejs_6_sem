@@ -223,7 +223,7 @@ class OrderController {
       await BasketProduct.destroy({
         where: {
           productId: {
-            [Op.eq]: productIds,
+            [Op.in]: productIds,
           },
         },
       });
