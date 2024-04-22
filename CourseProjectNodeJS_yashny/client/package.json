@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
+    "https": "^1.0.0",
     "jwt-decode": "^4.0.0",
     "mdb-react-ui-kit": "^7.2.0",
     "mobx": "^6.12.0",
@@ -21,7 +22,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set HTTPS=true&& set SSL_CRT_FILE=../certificate.crt&& set SSL_KEY_FILE=../private.key&& react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
