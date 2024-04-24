@@ -199,13 +199,18 @@ class OrderController {
       const total_cost = products.reduce((sum, product) => sum + product.price, 0)
       
       const order = await Order.create({ userId: userId, orderStatusId: 1, total_cost: total_cost });
-      
+      let hasIsSold = false;
       const orderProducts = products.map((product) => {
+        if (product.isSold == true)
+          hasIsSold = true;
         return {
           orderId: order.id,
           productId: product.id,
         };
       });
+
+      if (hasIsSold)
+        return res.json("Товар продан")
 
       await OrderProduct.bulkCreate(orderProducts);
 

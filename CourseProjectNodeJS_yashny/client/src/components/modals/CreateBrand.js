@@ -9,10 +9,18 @@ const CreateBrand = ({show, onHide}) => {
     const [value, setValue] = useState('')
     
     const addBrand = () => {
+      try {
         createBrand({name: value}).then(data => {
+          if (data.status == 404)
+            alert("Такой бренд уже существует")
+          console.log(data)
           setValue('')
           onHide()
         })
+      } catch (e) {
+        alert(e)
+      }
+        
     }
 
     return (

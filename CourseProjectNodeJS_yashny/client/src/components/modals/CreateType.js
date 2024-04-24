@@ -9,6 +9,8 @@ const CreateType = ({show, onHide}) => {
     
     const addType = () => {
         createType({name: value}).then(data => {
+          if (data.status == 404)
+            alert("Такая категория уже существует")
           setValue('')
           onHide()
         })
