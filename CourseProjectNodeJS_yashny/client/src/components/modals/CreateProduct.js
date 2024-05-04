@@ -35,6 +35,10 @@ const CreateProduct = observer(({show, onHide}) => {
 
     const addProduct = () => {
         const formData = new FormData()
+        if (!name || !price || !file || !product.selectedBrand.id || !product.selectedType.id) {
+            alert("Заполните все поля")
+            return
+        }
         formData.append('name', name)
         formData.append('price', `${price}`)
         formData.append('img', file)

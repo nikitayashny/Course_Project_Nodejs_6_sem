@@ -21,6 +21,5 @@ export const check = async () => {
     }
     catch (e) {
         console.log('неавторизован')
-    }
-    
+    } 
 }

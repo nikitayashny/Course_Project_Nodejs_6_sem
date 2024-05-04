@@ -2,7 +2,7 @@ const uuid = require('uuid')
 const path = require('path')
 const fs = require('fs')
 const { promises: fsPromises } = require('fs');
-const {Product, ProductInfo} = require('../models/models')
+const {Product, ProductInfo, BasketProduct} = require('../models/models')
 const ApiError = require('../error/ApiError')
 
 class ProductController {
@@ -121,6 +121,12 @@ class ProductController {
             }
                
             await product.destroy()
+
+            await BasketProduct.destroy({
+                where: {
+                  productId: product.id
+                },
+              });
     
             return res.json({ message: 'Товар успешно удален' });
         } catch (error) {
