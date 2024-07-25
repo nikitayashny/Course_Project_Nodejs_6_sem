@@ -6,25 +6,25 @@ import { observer } from "mobx-react-lite";
 import { Context } from "./index";
 import { check } from "./http/userAPI"
 import { Spinner } from "react-bootstrap";
-import socket from "./socket";
+//import socket from "./socket";
 
 const App = observer(() => {
     const {user} = useContext(Context)
     const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        socket.addEventListener('message', (event) => {
-          const message = event.data;
-          alert(message);
-        });
+    // useEffect(() => {
+    //     socket.addEventListener('message', (event) => {
+    //       const message = event.data;
+    //       alert(message);
+    //     });
 
-        return () => {
-          socket.removeEventListener('message', (event) => {
-            const message = event.data;
-            alert(message);
-          });
-        };
-    }, []);
+    //     return () => {
+    //       socket.removeEventListener('message', (event) => {
+    //         const message = event.data;
+    //         alert(message);
+    //       });
+    //     };
+    // }, []);
 
     useEffect(() => {
         check().then(data => {
